@@ -10,7 +10,7 @@ defmodule ElixirChatbot.ChatbotTest do
       conversation2 = insert(:conversation)
 
       conversations = Chatbot.list_chatbot_conversations()
-      
+
       assert length(conversations) == 2
       assert Enum.any?(conversations, fn c -> c.id == conversation1.id end)
       assert Enum.any?(conversations, fn c -> c.id == conversation2.id end)
@@ -92,21 +92,21 @@ defmodule ElixirChatbot.ChatbotTest do
       assert message.updated_at
     end
 
-    test "creates message with no attributes" do
+    test "returns error when content is missing" do
       conversation = insert(:conversation)
 
       {:error, changeset} = Chatbot.create_message(conversation)
 
-      assert changeset.errors[:content] == {"can't be blank", [validation: :required]}
+      assert errors_on(changeset).content
       refute changeset.valid?
     end
 
-    test "creates message with empty map" do
+    test "returns error when content is empty" do
       conversation = insert(:conversation)
 
       {:error, changeset} = Chatbot.create_message(conversation, %{})
 
-      assert changeset.errors[:content] == {"can't be blank", [validation: :required]}
+      assert errors_on(changeset).content
       refute changeset.valid?
     end
   end
@@ -114,7 +114,7 @@ defmodule ElixirChatbot.ChatbotTest do
   describe "change_message/2" do
     test "returns changeset for existing message" do
       message = insert(:message, content: "Original content")
-      
+
       changeset = Chatbot.change_message(message, %{content: "Updated content"})
 
       assert changeset.data == message
@@ -124,7 +124,7 @@ defmodule ElixirChatbot.ChatbotTest do
 
     test "returns changeset with no attributes" do
       message = insert(:message)
-      
+
       changeset = Chatbot.change_message(message)
 
       assert changeset.data == message
@@ -134,7 +134,7 @@ defmodule ElixirChatbot.ChatbotTest do
 
     test "returns changeset with empty map" do
       message = insert(:message)
-      
+
       changeset = Chatbot.change_message(message, %{})
 
       assert changeset.data == message

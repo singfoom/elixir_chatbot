@@ -1,6 +1,6 @@
 defmodule ElixirChatbot.Chatbot.Message do
   @moduledoc """
-  A Message is the representation of a message sent to the
+  A Message is the representation of a message sent to the chatbot
   """
   use Ecto.Schema
   import Ecto.Changeset
