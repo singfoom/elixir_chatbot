@@ -3,6 +3,7 @@ defmodule ElixirChatbot.Repo.Migrations.CreateChatbotConversations do
 
   def change do
     create table(:chatbot_conversations) do
+      add :resolved_at, :naive_datetime
 
       timestamps(type: :utc_datetime)
     end
