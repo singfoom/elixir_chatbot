@@ -61,6 +61,14 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configure Req HTTP client
+config :req, default_options: [
+  timeout: 30_000,
+  retry: :transient,
+  retry_delay: 1000,
+  max_retries: 3
+]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
