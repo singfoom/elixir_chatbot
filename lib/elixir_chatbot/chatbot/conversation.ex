@@ -1,4 +1,7 @@
 defmodule ElixirChatbot.Chatbot.Conversation do
+  @moduledoc """
+  A schema to hold the records of a conversation with the chatbot.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,7 +9,6 @@ defmodule ElixirChatbot.Chatbot.Conversation do
     field :resolved_at, :naive_datetime
 
     has_many :messages, ElixirChatbot.Chatbot.Message, preload_order: [desc: :inserted_at]
-
 
     timestamps(type: :utc_datetime)
   end

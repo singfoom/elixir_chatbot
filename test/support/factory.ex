@@ -1,4 +1,7 @@
 defmodule ElixirChatbot.Factory do
+  @moduledoc """
+  An ex machina based factory for data in tests
+  """
   use ExMachina.Ecto, repo: ElixirChatbot.Repo
 
   def conversation_factory do

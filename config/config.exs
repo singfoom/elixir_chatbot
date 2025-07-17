@@ -62,12 +62,16 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Configure Req HTTP client
-config :req, default_options: [
-  timeout: 30_000,
-  retry: :transient,
-  retry_delay: 1000,
-  max_retries: 3
-]
+config :req,
+  default_options: [
+    timeout: 30_000,
+    retry: :transient,
+    retry_delay: 1000,
+    max_retries: 3
+  ]
+
+config :elixir_chatbot,
+  anthropic_key: System.get_env("ANTHROPIC_KEY")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
