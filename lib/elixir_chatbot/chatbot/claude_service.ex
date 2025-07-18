@@ -14,19 +14,20 @@ defmodule ElixirChatbot.Chatbot.ClaudeService do
     """
   end
 
-  def call(prompts, opts \\ []) do
-    %{
-      "model" => "claude-3-5-sonnet-20241022",
-      "max_tokens" => 1024,
-      "messages" =>
-        Enum.concat(
-          [
-            %{"role" => "user", "content" => default_system_prompt()}
-          ],
-          prompts
-        ),
-      "temperature" => 0.7
-    }
+  def call(prompt, opts \\ []) do
+    default_message = %{"role" => "user", "content" => default_system_prompt()}
+
+    messages = [prompt]
+    messages = [default_message | messages]
+
+    incoming_body =
+      %{
+        "model" => "claude-3-5-sonnet-20241022",
+        "max_tokens" => 1024,
+        "messages" => messages
+      }
+
+    incoming_body
     |> Jason.encode!()
     |> request(opts)
     |> parse_response()
@@ -34,12 +35,11 @@ defmodule ElixirChatbot.Chatbot.ClaudeService do
 
   defp parse_response({:ok, %Req.Response{body: body}}) do
     messages =
-      Jason.decode!(body)
-      |> Map.get("choices", [])
+      Map.get(body, "content", [])
       |> Enum.reverse()
 
     case messages do
-      [%{"message" => message} | _] -> message
+      [%{"text" => message} | _] -> message
       _ -> "{}"
     end
   end

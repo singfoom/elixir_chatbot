@@ -64,7 +64,6 @@ config :phoenix, :json_library, Jason
 # Configure Req HTTP client
 config :req,
   default_options: [
-    timeout: 30_000,
     retry: :transient,
     retry_delay: 1000,
     max_retries: 3
