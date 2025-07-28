@@ -1,0 +1,14 @@
+{
+  "coverage_options": {
+    "treat_no_relevant_lines_as_covered": true,
+    "output_dir": "cover/",
+    "minimum_coverage": 75
+  },
+  "skip_files": [
+    "test/",
+    "priv/",
+    "lib/elixir_chatbot_web/channels/user_socket.ex",
+    "lib/elixir_chatbot_web/components/",
+    "lib/elixir_chatbot_web/controllers/error_json.ex"
+  ]
+}
