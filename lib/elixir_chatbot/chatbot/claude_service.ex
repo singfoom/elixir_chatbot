@@ -39,7 +39,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeService do
       |> Enum.reverse()
 
     case messages do
-      [%{"text" => message} | _] -> message
+      [%{"text" => message} | _] when is_binary(message) -> message
       _ -> "{}"
     end
   end
@@ -48,8 +48,23 @@ defmodule ElixirChatbot.Chatbot.ClaudeService do
     error
   end
 
-  defp request(body, _opts) do
-    Req.post("https://api.anthropic.com/v1/messages", headers: headers(), body: body)
+  defp request(body, opts) do
+    test_plug = Keyword.get(opts, :test_plug)
+
+    request_opts = [
+      url: "https://api.anthropic.com/v1/messages",
+      headers: headers(),
+      body: body
+    ]
+
+    request_opts =
+      if test_plug do
+        Keyword.put(request_opts, :plug, {Req.Test, test_plug})
+      else
+        request_opts
+      end
+
+    Req.post(request_opts)
   end
 
   defp headers do

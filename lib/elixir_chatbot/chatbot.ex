@@ -32,6 +32,6 @@ defmodule ElixirChatbot.Chatbot do
   end
 
   def change_message(%Message{} = message, attrs \\ %{}) do
-    Message.changeset(message,    attrs)
+    Message.changeset(message, attrs)
   end
 end
