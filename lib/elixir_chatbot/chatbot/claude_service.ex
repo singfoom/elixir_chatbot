@@ -14,17 +14,14 @@ defmodule ElixirChatbot.Chatbot.ClaudeService do
     """
   end
 
-  def call(prompt, opts \\ []) do
+  def call(prompts, opts \\ []) do
     default_message = %{"role" => "user", "content" => default_system_prompt()}
-
-    messages = [prompt]
-    messages = [default_message | messages]
 
     incoming_body =
       %{
         "model" => "claude-3-5-sonnet-20241022",
         "max_tokens" => 1024,
-        "messages" => messages
+        "messages" => Enum.concat([default_message], prompts)
       }
 
     incoming_body

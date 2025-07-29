@@ -3,10 +3,11 @@ defmodule ElixirChatbot.Chatbot do
   The Chatbot context.
   """
   import Ecto.Query, warn: false
-  alias ElixirChatbot.Repo
 
+  alias ElixirChatbot.Chatbot.ClaudeService
   alias ElixirChatbot.Chatbot.Conversation
   alias ElixirChatbot.Chatbot.Message
+  alias ElixirChatbot.Repo
 
   def list_chatbot_conversations do
     Repo.all(Conversation)
@@ -33,5 +34,16 @@ defmodule ElixirChatbot.Chatbot do
 
   def change_message(%Message{} = message, attrs \\ %{}) do
     Message.changeset(message, attrs)
+  end
+
+  def generate_response(conversation, messages) do
+    last_five_messages =
+      Enum.slice(messages, 0..4)
+      |> Enum.map(fn %{role: role, content: content} ->
+        %{"role" => role, "content" => content}
+      end)
+      |> Enum.reverse()
+
+    create_message(conversation, ClaudeService.call(last_five_messages))
   end
 end

@@ -5,7 +5,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
 
   describe "call/2" do
     test "returns a response when given a valid prompt" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         Req.Test.json(conn, %{
@@ -25,7 +25,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "returns empty JSON when response has no content" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         Req.Test.json(conn, %{"content" => []})
@@ -38,7 +38,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
 
     @tag :capture_log
     test "returns error tuple when request fails" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         Req.Test.transport_error(conn, :timeout)
@@ -50,7 +50,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "includes system prompt in messages" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         # Capture the request body to verify system prompt is included
@@ -76,7 +76,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "uses correct model and parameters" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         {:ok, body, _conn} = Plug.Conn.read_body(conn)
@@ -95,7 +95,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "includes correct headers in request" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         assert conn.request_path == "/v1/messages"
@@ -112,7 +112,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "handles malformed response content" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         Req.Test.json(conn, %{
@@ -128,7 +128,7 @@ defmodule ElixirChatbot.Chatbot.ClaudeServiceTest do
     end
 
     test "reverses content array to get latest message" do
-      prompt = %{"role" => "user", "content" => "What is Elixir?"}
+      prompt = [%{"role" => "user", "content" => "What is Elixir?"}]
 
       Req.Test.stub(ClaudeService, fn conn ->
         Req.Test.json(conn, %{
