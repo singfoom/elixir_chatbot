@@ -13,5 +13,6 @@
   </head>
   <body class="bg-white">
     {@inner_content}
+    {live_render(@conn, ElixirChatbotWeb.ChatbotLive, session: %{})}
   </body>
 </html>

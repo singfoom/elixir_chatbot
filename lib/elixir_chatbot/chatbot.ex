@@ -44,6 +44,8 @@ defmodule ElixirChatbot.Chatbot do
       end)
       |> Enum.reverse()
 
-    create_message(conversation, ClaudeService.call(last_five_messages))
+    service_response = ClaudeService.call(last_five_messages)
+
+    create_message(conversation, %{"content" => service_response, "role" => "assistant"})
   end
 end
